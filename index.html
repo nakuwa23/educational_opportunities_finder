@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Educational Opportunities Finder</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body>
+
+    <div class="main">
+        <h1>Educational Opportunities Finder</h1>
+        <p class="sub-heading">Discover scholarships, grants, fellowships, and more.</p>
+
+        <form id="searchForm">
+            <label for="keyword">Keyword</label>
+            <input type="text" id="keyword" name="keyword"
+                placeholder="e.g., Cybersecurity, Undergraduate, Women in Tech" required>
+
+            <label for="category">Opportunity Type</label>
+            <select id="category" name="category">
+                <option value="select">-- Select --</option>
+                <option value="scholarship">Scholarship</option>
+                <option value="grant">Grant</option>
+                <option value="fellowship">Fellowship</option>
+                <option value="conference">Conference</option>
+            </select>
+
+            <label for="country">Country / Region (Optional)</label>
+            <input type="text" id="country" name="country" placeholder="e.g., United Kingdom, Rwanda, Global">
+
+            <button type="submit">Find Opportunities</button>
+        </form>
+
+        <div id="loading" class="hidden">Searching...</div>
+
+        <div class="results" id="resultsContainer">
+            <p class="message">Enter a keyword and select a category to find life-changing opportunities.</p>
+        </div>
+    </div>
+
+    <script src="scripts/config.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+
+</html>
