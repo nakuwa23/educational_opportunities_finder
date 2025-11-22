@@ -155,3 +155,24 @@ button:hover {
     color: #1d3557;
     flex-shrink: 0;
 }
+
+
+@media (max-width: 600px) {
+    .main {
+        margin: 20px;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .result-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .uni-icon {
+        margin-bottom: 15px;
+    }
+}
