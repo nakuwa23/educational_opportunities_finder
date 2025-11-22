@@ -5,7 +5,7 @@ A web application developed to help students and professionals discover scholars
 <img src="./assets/screenshot.png" alt="App Screenshot" width="650">
 
 ## Features
-*   **Search**: Find opportunities by keyword (e.g., "Cybersecurity", "Women in STEM").
+*   **Search**: Find opportunities by keyword (e.g., "Cybersecurity").
 *   **Filter**: Categorize results by Scholarships, Grants, Fellowships, or Conferences.
 *   **Location Support**: Optional filtering by country or region.
 *   **Direct Access**: Links directly to the opportunity pages.
