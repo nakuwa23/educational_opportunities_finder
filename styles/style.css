@@ -158,6 +158,14 @@ button:hover {
     flex-shrink: 0;
 }
 
+footer {
+    background-color: #1d3557;
+    color: white;
+    padding: 0.1rem;
+    text-align: center;
+    position: relative;
+}
+
 
 @media (max-width: 600px) {
     .main {
