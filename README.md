@@ -2,7 +2,7 @@
 
 A web application developed to help students and professionals discover scholarships, grants, fellowships, and conferences. This tool aggregates opportunities from across the web using the Google Custom Search API, providing a centralized platform for educational funding search.
 
-<img src="./assets/screenshot.png" alt="App Screenshot" width="700">
+<img src="./assets/screenshot.png" alt="App Screenshot">
 
 ## Features
 *   **Search**: Find opportunities by keyword (e.g., "Cybersecurity", "Women in STEM").
