@@ -42,7 +42,7 @@ searchForm.addEventListener('submit', async (e) => {
         resultsContainer.innerHTML = `
             <div class="message" style="color: red;">
                 <p>Error: ${error.message}</p>
-                <p style="font-size: 12px; color: #666;">Ensure you have set your API_KEY and CX in config.js file</p>
+                <p style="font-size: 12px; color: #666;">Ensure you have set your API_KEY and CX (Search Engine ID) in config.js file</p>
             </div>`;
     } finally {
         loadingIndicator.classList.add('hidden');
