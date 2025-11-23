@@ -25,7 +25,7 @@ To run this application locally, you need:
     ```
 
 2.  **Configure API Keys**
-    *   The `config.js` file is excluded from the repository for security.
+    *   The `config.js` file is excluded from the repository for security purposes.
     *   Create a file named `config.js` in the root directory.
     *   Add your keys in the following format:
         ```javascript
@@ -45,47 +45,84 @@ This application uses the **Google Custom Search JSON API**.
 *   **Attribution**: Search results are powered by Google.
 
 ## Deployment
-This project includes scripts to automate the setup of your Web Servers and Load Balancer.
+The following steps outline the deployment process used for this application.
 
-### 1. Web Server Deployment (Web01 & Web02)
-Repeat these steps for **both** Web01 and Web02:
+### 1. Packaging
+Compress the project files into a single archive for easy transfer.
+```bash
+tar -czf educational_opportunities_finder.tar.gz index.html assets styles scripts README.md
+```
 
-1.  **Transfer Files**: Copy the `deployment/setup_web.sh` script and your project files to the server.
-    ```bash
-    # Example using SCP (run from your local machine)
-    scp -r . user@<WEB_SERVER_IP>:~/app
-    ```
-2.  **Run Setup Script**:
-    ```bash
-    cd ~/app/deployment
-    chmod +x setup_web.sh
-    sudo ./setup_web.sh
-    ```
-3.  **Deploy Code**:
-    ```bash
-    # Move files to the web root
-    sudo cp -r ~/app/* /var/www/html/
-    # IMPORTANT: Ensure config.js is present in /var/www/html/scripts/
-    ```
+### 2. Web Server Deployment (Web01 & Web02)
+Repeat these steps for both Web Servers.
 
-### 2. Load Balancer Configuration (Lb01)
-1.  **Transfer Script**: Copy `deployment/setup_lb.sh` to Lb01.
-2.  **Run Setup Script**:
-    ```bash
-    chmod +x setup_lb.sh
-    sudo ./setup_lb.sh <WEB01_IP> <WEB02_IP>
-    # Example: sudo ./setup_lb.sh 194.162.1.18 194.162.1.19
-    ```
+**Upload the Package:**
+```bash
+scp -i ~/.ssh/my_key educational_opportunities_finder.tar.gz ubuntu@<SERVER_IP>:/tmp/
+```
 
-### 3. Verification
+**Install & Configure:**
+Connect to the server and run:
+```bash
+ssh ubuntu@<SERVER_IP>
+
+sudo mkdir -p /var/www/html/educational_opportunities_finder
+
+cd /var/www/html/educational_opportunities_finder
+sudo tar -xzf /tmp/educational_opportunities_finder.tar.gz
+
+sudo chown -R www-data:www-data /var/www/html/educational_opportunities_finder
+sudo chmod -R 755 /var/www/html/educational_opportunities_finder
+exit
+```
+
+### 3. Load Balancer Configuration (Nginx)
+Connect to the Load Balancer server (Lb01).
+
+```bash
+ssh ubuntu@<LB_IP>
+sudo nano /etc/nginx/sites-available/educational-opportunities-lb
+```
+
+**Configuration Content:**
+Paste the following configuration:
+```nginx
+upstream backend {
+    server <WEB01_IP>;
+    server <WEB02_IP>;
+}
+
+server {
+    listen 80;
+    location / {
+        proxy_pass http://backend;
+    }
+}
+```
+
+**Enable & Restart:**
+```bash
+sudo ln -s /etc/nginx/sites-available/educational-opportunities-lb /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl restart nginx
+exit
+```
+
+### 4. Verification
 *   Visit the Load Balancer's IP address in your browser.
 *   The application should load.
-*   Refreshing the page should distribute traffic between Web01 and Web02 (you can verify this by checking access logs on the web servers).
+*   Refreshing the page should distribute traffic between Web01 and Web02.
 
 ## Bonus: Performance Optimization
 This application implements **Client-Side Caching** to improve performance and reduce API usage.
 *   **Mechanism**: Search results are stored in the browser's `localStorage`.
 *   **Benefit**: Repeating a search loads results instantly without a network request.
+
+## Bonus: User Interaction (Favorites)
+To enhance user engagement, a **Favorites System** has been implemented.
+*   **Save**: Users can click the "Save" button on any opportunity.
+*   **Persist**: Saved items are stored in `localStorage`, meaning they remain available even after closing the browser.
+*   **Manage**: Users can view their saved list at the bottom of the page and remove items they are no longer interested in.
 
 ## Contact Information
 *   **Name**: Brian Nakuwa
