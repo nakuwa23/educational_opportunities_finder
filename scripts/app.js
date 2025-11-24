@@ -4,7 +4,71 @@ const loadingIndicator = document.getElementById('loading');
 const savedSection = document.getElementById('savedSection');
 const savedContainer = document.getElementById('savedContainer');
 
-document.addEventListener('DOMContentLoaded', loadSavedItems);
+const settingsBtn = document.getElementById('settingsBtn');
+const settingsModal = document.getElementById('settingsModal');
+const closeBtn = document.querySelector('.close');
+const saveKeysBtn = document.getElementById('saveKeysBtn');
+const apiKeyInput = document.getElementById('apiKeyInput');
+const cxInput = document.getElementById('cxInput');
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadSavedItems();
+    checkConfiguration();
+});
+
+if (settingsBtn) {
+    settingsBtn.onclick = () => {
+        apiKeyInput.value = getApiKey() || '';
+        cxInput.value = getCx() || '';
+        settingsModal.classList.add('show');
+    }
+}
+
+if (closeBtn) {
+    closeBtn.onclick = () => settingsModal.classList.remove('show');
+}
+
+window.onclick = (event) => {
+    if (event.target == settingsModal) {
+        settingsModal.classList.remove('show');
+    }
+}
+
+if (saveKeysBtn) {
+    saveKeysBtn.onclick = () => {
+        const key = apiKeyInput.value.trim();
+        const cx = cxInput.value.trim();
+
+        if (key && cx) {
+            localStorage.setItem('user_api_key', key);
+            localStorage.setItem('user_cx', cx);
+            alert('Configuration Saved!');
+            settingsModal.classList.remove('show');
+        } else {
+            alert('Please enter both API Key and CX ID');
+        }
+    }
+}
+
+function getApiKey() {
+    return localStorage.getItem('user_api_key') || (typeof CONFIG !== 'undefined' ? CONFIG.API_KEY : null);
+}
+
+function getCx() {
+    return localStorage.getItem('user_cx') || (typeof CONFIG !== 'undefined' ? CONFIG.CX : null);
+}
+
+function checkConfiguration() {
+    if (!getApiKey() || !getCx()) {
+        setTimeout(() => {
+            if (settingsModal) {
+                alert('Welcome! Kindly configure your API Keys to start searching.');
+                settingsModal.classList.add('show');
+            }
+        }, 1000);
+    }
+}
+
 
 searchForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -42,7 +106,7 @@ searchForm.addEventListener('submit', async (e) => {
         resultsContainer.innerHTML = `
             <div class="message" style="color: red;">
                 <p>Error: ${error.message}</p>
-                <p style="font-size: 12px; color: #666;">Ensure you have set your API_KEY and CX (Search Engine ID) in config.js file</p>
+                <p style="font-size: 12px; color: #666;">Please check your API Keys in Settings.</p>
             </div>`;
     } finally {
         loadingIndicator.classList.add('hidden');
@@ -50,11 +114,14 @@ searchForm.addEventListener('submit', async (e) => {
 });
 
 async function fetchGoogleSearchResults(query) {
-    if (CONFIG.API_KEY === 'YOUR_GOOGLE_API_KEY_HERE' || CONFIG.CX === 'YOUR_SEARCH_ENGINE_ID_HERE') {
-        throw new Error('API Key or Search Engine ID not configured in config.js file');
+    const apiKey = getApiKey();
+    const cx = getCx();
+
+    if (!apiKey || !cx) {
+        throw new Error('API Configuration missing. Click "Settings" to configure.');
     }
 
-    const url = `https://www.googleapis.com/customsearch/v1?key=${CONFIG.API_KEY}&cx=${CONFIG.CX}&q=${encodeURIComponent(query)}`;
+    const url = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${cx}&q=${encodeURIComponent(query)}`;
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -77,7 +144,7 @@ function renderResults(items) {
         card.className = 'result-card';
 
         card.innerHTML = `
-            <div class="uni-icon">🎓</div>
+            <div class="icon">🎓</div>
             <div class="card-content">
                 <h3 class="card-title"><a href="${item.link}" target="_blank" style="text-decoration: none; color: inherit;">${item.title}</a></h3>
                 <p class="card-subtitle" style="color: #017d28ff; font-size: 12px;">${item.displayLink}</p>
@@ -119,6 +186,8 @@ function removeItem(link) {
 }
 
 function loadSavedItems() {
+    if (!savedContainer) return;
+
     const savedItems = getSavedItems();
     savedContainer.innerHTML = '';
 
@@ -127,7 +196,7 @@ function loadSavedItems() {
         savedItems.forEach(item => {
             const card = document.createElement('div');
             card.className = 'result-card';
-            card.style.borderLeft = '4px solid #e2b80eff'; 
+            card.style.borderLeft = '4px solid #e2b80eff';
 
             card.innerHTML = `
                 <div class="card-content">
