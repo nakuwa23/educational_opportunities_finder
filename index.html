@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -12,8 +11,13 @@
 <body>
 
     <div class="main">
+        <div style="text-align: right;">
+            <button id="settingsBtn"
+                style="width: auto; padding: 8px 15px; background-color: #1d3557; color: white; border: 1px solid #ddd;">
+                Settings</button>
+        </div>
         <h1>Educational Opportunities Finder</h1>
-        <p class="sub-heading">Discover scholarships, grants, fellowships, and more.</p>
+        <p class="sub-heading">Discover scholarships, grants, fellowships, and conferences.</p>
 
         <form id="searchForm">
             <label for="keyword">Keyword</label>
@@ -39,6 +43,27 @@
 
         <div class="results" id="resultsContainer">
             <p class="message">Enter a keyword and select a category to find life-changing opportunities.</p>
+        </div>
+
+        <div class="saved-section hidden" id="savedSection">
+            <h2>Saved Opportunities</h2>
+            <div id="savedContainer"></div>
+        </div>
+    </div>
+
+    <div id="settingsModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>API Configuration</h2>
+            <p style="font-size: 14px; color: #666;">Enter your API keys to enable searching.</p>
+
+            <label for="apiKeyInput">API Key</label>
+            <input type="text" id="apiKeyInput" placeholder="Paste your API Key here">
+
+            <label for="cxInput">Search Engine ID (CX)</label>
+            <input type="text" id="cxInput" placeholder="Paste your Search Engine ID here">
+
+            <button id="saveKeysBtn" style="margin-top: 15px;">Save Configuration</button>
         </div>
     </div>
 
