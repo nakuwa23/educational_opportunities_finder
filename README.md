@@ -25,15 +25,15 @@ To run this application locally, you need:
     ```
 
 2.  **Configure API Keys**
-    There are two ways to configure your Google API keys:
+    There are two ways to configure your API keys:
 
-    *   **Option A: UI Settings (Recommended for Deployment)**
+    *   **Option A: UI Settings**
         1.  Open the application in your browser.
         2.  Click the **"Settings"** button in the top right corner.
         3.  Enter your **API Key** and **Search Engine ID (CX)**.
         4.  Click **Save**. Keys are stored securely in your browser's `localStorage`.
 
-    *   **Option B: `config.js` File (For Local Development)**
+    *   **Option B: `config.js` File**
         1.  Create a file named `config.js` in the `scripts/` directory.
         2.  Add your keys in the following format:
             ```javascript
@@ -93,7 +93,7 @@ sudo nano /etc/nginx/sites-available/educational-opportunities-lb
 ```
 
 **Configuration Content:**
-Paste the following configuration (adjust IPs as needed):
+Paste the following configuration:
 ```nginx
 upstream backend {
     server <WEB01_IP>;
