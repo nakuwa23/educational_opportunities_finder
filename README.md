@@ -5,6 +5,10 @@ A web application developed to help students and professionals discover scholars
 ## Demo Video Link
 **Youtube**: https://youtu.be/NOhS6LN29OY
 
+## App Architecture
+<img src="./assets/app_architecture.png" alt="App Architecture" width="650">
+
+## User Interface Design
 <img src="./assets/screenshot.png" alt="App Screenshot" width="650">
 
 ## Features
