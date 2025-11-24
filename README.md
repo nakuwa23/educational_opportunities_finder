@@ -25,15 +25,23 @@ To run this application locally, you need:
     ```
 
 2.  **Configure API Keys**
-    *   The `config.js` file is excluded from the repository for security purposes.
-    *   Create a file named `config.js` in the root directory.
-    *   Add your keys in the following format:
-        ```javascript
-        const CONFIG = {
-            API_KEY: 'YOUR_API_KEY',
-            CX: 'YOUR_SEARCH_ENGINE_ID'
-        };
-        ```
+    There are two ways to configure your Google API keys:
+
+    *   **Option A: UI Settings (Recommended for Deployment)**
+        1.  Open the application in your browser.
+        2.  Click the **"Settings"** button in the top right corner.
+        3.  Enter your **API Key** and **Search Engine ID (CX)**.
+        4.  Click **Save**. Keys are stored securely in your browser's `localStorage`.
+
+    *   **Option B: `config.js` File (For Local Development)**
+        1.  Create a file named `config.js` in the `scripts/` directory.
+        2.  Add your keys in the following format:
+            ```javascript
+            const CONFIG = {
+                API_KEY: 'YOUR_API_KEY',
+                CX: 'YOUR_SEARCH_ENGINE_ID'
+            };
+            ```
 
 3.  **Run the Application**
     *   Simply open `index.html` in your web browser.
@@ -45,7 +53,7 @@ This application uses the **Google Custom Search JSON API**.
 *   **Attribution**: Search results are powered by Google.
 
 ## Deployment
-The following steps outline the deployment process used for this application.
+The following steps outline the manual deployment process used for this application.
 
 ### 1. Packaging
 Compress the project files into a single archive for easy transfer.
@@ -85,7 +93,7 @@ sudo nano /etc/nginx/sites-available/educational-opportunities-lb
 ```
 
 **Configuration Content:**
-Paste the following configuration:
+Paste the following configuration (adjust IPs as needed):
 ```nginx
 upstream backend {
     server <WEB01_IP>;

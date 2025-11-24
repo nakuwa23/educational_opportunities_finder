@@ -42,7 +42,7 @@ if (saveKeysBtn) {
         if (key && cx) {
             localStorage.setItem('user_api_key', key);
             localStorage.setItem('user_cx', cx);
-            alert('Configuration Saved!');
+            alert('Configuration Saved Successfully!');
             settingsModal.classList.remove('show');
         } else {
             alert('Please enter both API Key and CX ID');
